@@ -10,32 +10,33 @@ public class FileStats {
         int wordCount = 0;
         int charCount = 0;
 
-        // Use try-with-resources to ensure the reader is closed automatically
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+        // Use try-with-resources to ensure the file is closed automatically
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             
-            // TODO: Read the file line by line until it returns null
-            while ((line = reader.readLine()) != null) {
-                // TODO: Increment lineCount
+            while ((line = br.readLine()) != null) {
+                // 1. Increment line count
+                lineCount++;
                 
-                // TODO: Add the length of the current line to charCount
+                // 2. Increment character count (excluding newline characters)
+                charCount += line.length();
                 
-                // TODO: Split the line into words using split("\\s+") and add the length of the resulting array to wordCount
-                // Hint: Check if the line is not empty before splitting to avoid counting empty strings!
+                // 3. Increment word count
+                // trim() removes leading/trailing spaces
+                // split("\\s+") splits by one or more whitespace characters
                 if (!line.trim().isEmpty()) {
                     String[] words = line.trim().split("\\s+");
-                    // Add words.length to wordCount
+                    wordCount += words.length;
                 }
             }
             
+            // Output the results in the required format
+            System.out.println("Lines: " + lineCount);
+            System.out.println("Words: " + wordCount);
+            System.out.println("Characters: " + charCount);
+
         } catch (IOException e) {
             System.out.println("Error reading the file: " + e.getMessage());
-            return;
         }
-
-        // Output the results
-        System.out.println("Lines: " + lineCount);
-        System.out.println("Words: " + wordCount);
-        System.out.println("Characters: " + charCount);
     }
 }
